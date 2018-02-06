@@ -6,12 +6,27 @@
 </head>
 <body>
 <h1>{{ question }}</h1>
-<ol>
-<!Display the choices for a question>
+{% if error_message %}
+    <p>{{ error_message }}</p>
+{% endif %}
+
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% csrf_token %}
+
+<!--Display the choices for a question-->
 {% for choice in question.choice_set.all %}
-    <li>{{ choice }}</li>
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+    <label for="choice{{ forloop.counter }}">{{ choice }}</label><br/>
 {% endfor %}
-</ol>
+
+<br/>
+<input type="submit" value="vote"/>
+</form>
+
+<br/>
+<br/>
+<!-- Select another question to view its details and perhaps vote -->
+<a href="{% url 'polls:index' %}">Vote on another question?</a>
 
 </body>
 </html>
