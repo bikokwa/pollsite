@@ -16,7 +16,8 @@ class Question(models.Model):
         return self.question_text
 
     def was_published_recently(self):
-        return self.publication_date >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.publication_date <= now
 
 #model class for Choice. It has two variables: choice_text and votes
 #each choice is related to a question
